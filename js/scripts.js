@@ -14,6 +14,18 @@ function hideModal (button) {
 
 }
 
+function disableButton(button) {
+    button.disabled = true;
+    button.style.backgroundColor = '#0099cc';
+}
+
+function enableButton(button) {
+    button.disabled = false;
+    button.style.backgroundColor = '#4CAF50';
+}
+
+
+
 //send a request to API
 var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = function () {
@@ -95,68 +107,46 @@ xhr.onreadystatechange = function () {
                 targetDiv = event.target;
                 parent = targetDiv.parentElement;  //parent of a card div that was clicked
                 grandparent = parent.parentElement;
-                console.log('target',targetDiv.nextElementSibling);
-                console.log('parent', parent.nextElementSibling);
-                console.log('grandparent', grandparent.nextElementSibling);
+                // console.log('target',targetDiv.nextElementSibling);
+                // console.log('parent', parent.nextElementSibling);
+                // console.log('grandparent', grandparent.nextElementSibling);
 
 
                 if (parent.className === 'card-img-container') {
                     if (targetDiv.previousElementSibling === null && parent.previousElementSibling === null && grandparent.previousElementSibling === null) {
-                        prevButton.disabled = true;
+                        disableButton(prevButton);
                     }
                     else if ((targetDiv.nextElementSibling === null && grandparent.nextElementSibling === null) 
                         || (grandparent.nextElementSibling.className === 'modal-container' && targetDiv.nextElementSibling === null)) {
-                        nextButton.disabled = true;
+                        disableButton(nextButton);
                     }
                 } 
                 if (grandparent.className === 'card') {
                     if (grandparent.previousElementSibling === null) {
-                        prevButton.disabled = true;
+                        disableButton(prevButton);
                     }
                     else if (parent.nextElementSibling === null && grandparent.nextElementSibling === null) {
-                        nextButton.disabled = true;
+                        disableButton(nextButton);
                     }
                 }
         
                if (parent.className === 'card') {
                    if(targetDiv.previousElementSibling === null && parent.previousElementSibling === null) {
-                    prevButton.disabled = true;
+                    disableButton(prevButton);
                    }
                    else if(parent.nextElementSibling === null) {
-                    nextButton.disabled = true;
+                    disableButton(nextButton);
                    }
                }  
                if (parent.className === 'gallery') {
                    if (targetDiv.previousElementSibling === null) {
-                    prevButton.disabled = true;
+                    disableButton(prevButton);
                    }
                    else if (targetDiv.nextElementSibling === null && grandparent.nextElementSibling === null) {
-                    nextButton.disabled = true;
+                    disableButton(nextButton);
                    }
                }
 
-
-
-
-        //        if (parent.className === 'card-img-container') {
-        //         if (targetDiv.nextElementSibling === null && grandparent.nextElementSibling === null) {
-        //             nextButton.disabled = true;
-        //         }
-
-        //     } if (grandparent.className === 'card') {
-        //         if (parent.nextElementSibling === null && grandparent.nextElementSibling === null) {
-        //             nextButton.disabled = true;
-        //         }
-        //    }  if (parent.className === 'card') {
-        //        if(parent.nextElementSibling === null) {
-        //         nextButton.disabled = true;
-        //        }
-        //    }  if (parent.className === 'gallery') {
-        //        if (targetDiv === null && grandparent.nextElementSibling === null) {
-        //         nextButton.disabled = true;
-        //        }
-        //    }
-           
 
 
                 //create modal window for a card that was clicked
@@ -219,34 +209,43 @@ xhr.onreadystatechange = function () {
     
     
                 gallery.appendChild(modalContainer);
-                modalContainer.style.display = 'block';
-                modal.style.display = 'block';
-
-              
-
-                button.onclick = function() { //event listener for 'x' button on a modal
-                        //console.log(parent.className);
-                        document.querySelector('.modal-info-container').remove();
-                        modalContainer.style.display = 'none';
-                        //modal.style.display = 'none';
-                        prevButton.disabled = false;
-                        nextButton.disabled = false;
-                };
+                //$( ".modal-info-container" ).fadeIn( "slow" );
+                //modalContainer.style.display = 'block';
+                
+                //$('.modal').fadeIn();
+                   
+                    modalContainer.style.display = 'block';
+                    modal.style.display = 'block';
+                
 
                 
                
+                //$('.modal').animate({"margin-right": '+=150'});
+                //modalContainer.style.display = 'block';
 
-               
+                
+
+                // if ( $('.modal').css('display') === 'block'){
+                //     $('.modal-container').animate({width:'toggle'},350);
+                // }
+              
+
+                button.onclick = function() { //event listener for 'x' button on a modal
+                        $('.modal-container').fadeOut();
+                        document.querySelector('.modal-info-container').remove();
+                        enableButton(prevButton);
+                        enableButton(nextButton);
+                };
+ 
             }) 
-
-            
-
 
         }
 
         prevButton.addEventListener('click', () => {  //event listener for prev button
-          
-            nextButton.disabled = false;
+            //$('.modal').animate({"margin-right": '+=150'});
+            
+
+            enableButton(nextButton);
             if (parent.className === 'card-img-container') {
                 
                     hideModal(prevButton);
@@ -273,16 +272,14 @@ xhr.onreadystatechange = function () {
            }
        })
 
-            //    if (parent.nextElementSibling === null || grandparent.nextElementSibling === null || targetDiv.nextElementSibling === null) {
-            //      nextButton.disabled = true;
-            // }
-       
+    
             nextButton.addEventListener('click', () => {
-            // if (parent.nextElementSibling.className === null || grandparent.nextElementSibling === null || targetDiv.nextElementSibling === null) {
-            //     nextButton.disabled = true;
-            // } else {
+            // if ( $('.modal').css('display') === 'block'){
+            //        $('.modal-info-container').animate({width:'toggle'},350);
+            //        console.log('visible');
+            //     }
             if (parent.className === 'card-img-container') {  //if an image is clicked
-                prevButton.disabled = false;
+                enableButton(prevButton);
 
                     hideModal(nextButton);
                     grandparent.nextElementSibling.firstElementChild.firstElementChild.click();
