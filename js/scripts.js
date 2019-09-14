@@ -97,19 +97,13 @@ xhr.onreadystatechange = function () {
             cityState.innerHTML = location.city + ', ' + location.state;
             information.appendChild(cityState);
 
-            
-
             div.addEventListener ('click', (event) => {   //add event listener for every person on the page
             modalContainer.className = "modal-container";
             modal.className = "modal";
 
-
                 targetDiv = event.target;
                 parent = targetDiv.parentElement;  //parent of a card div that was clicked
                 grandparent = parent.parentElement;
-                // console.log('target',targetDiv.nextElementSibling);
-                // console.log('parent', parent.nextElementSibling);
-                // console.log('grandparent', grandparent.nextElementSibling);
 
 
                 if (parent.className === 'card-img-container') {
@@ -146,7 +140,6 @@ xhr.onreadystatechange = function () {
                     disableButton(nextButton);
                    }
                }
-
 
 
                 //create modal window for a card that was clicked
@@ -206,109 +199,54 @@ xhr.onreadystatechange = function () {
                 info.appendChild(birthday);
                 modalContainer.appendChild(modal);
               
-    
-    
                 gallery.appendChild(modalContainer);
-                //$( ".modal-info-container" ).fadeIn( "slow" );
-                //modalContainer.style.display = 'block';
-                
-                //$('.modal').fadeIn();
-                   
-                    modalContainer.style.display = 'block';
-                    modal.style.display = 'block';
-                
-
-                
-               
-                //$('.modal').animate({"margin-right": '+=150'});
-                //modalContainer.style.display = 'block';
-
-                
-
-                // if ( $('.modal').css('display') === 'block'){
-                //     $('.modal-container').animate({width:'toggle'},350);
-                // }
-              
-
+                    
+                modalContainer.style.display = 'block';
+                modal.style.display = 'block';
+ 
                 button.onclick = function() { //event listener for 'x' button on a modal
                         $('.modal-container').fadeOut();
                         document.querySelector('.modal-info-container').remove();
                         enableButton(prevButton);
                         enableButton(nextButton);
                 };
- 
             }) 
-
         }
 
         prevButton.addEventListener('click', () => {  //event listener for prev button
-            //$('.modal').animate({"margin-right": '+=150'});
-            
-
             enableButton(nextButton);
             if (parent.className === 'card-img-container') {
-                
                     hideModal(prevButton);
                     grandparent.previousElementSibling.firstElementChild.firstElementChild.click();
-                
-
             } else if (grandparent.className === 'card') {
-                
                 hideModal(prevButton);
-
                 grandparent.previousElementSibling.firstElementChild.firstElementChild.click();
-                //console.log(grandparent);
-                
            } else if (parent.className === 'card') {
-              
                 hideModal(prevButton);
                 parent.previousElementSibling.firstElementChild.firstElementChild.click();
-               
            } else if (parent.className === 'gallery') {
-               
                 hideModal(prevButton);
                 targetDiv.previousElementSibling.firstElementChild.firstElementChild.click();
-               
            }
        })
 
     
             nextButton.addEventListener('click', () => {
-            // if ( $('.modal').css('display') === 'block'){
-            //        $('.modal-info-container').animate({width:'toggle'},350);
-            //        console.log('visible');
-            //     }
             if (parent.className === 'card-img-container') {  //if an image is clicked
                 enableButton(prevButton);
-
-                    hideModal(nextButton);
-                    grandparent.nextElementSibling.firstElementChild.firstElementChild.click();
-                   
-                
+                hideModal(nextButton);
+                grandparent.nextElementSibling.firstElementChild.firstElementChild.click(); 
            } else if (grandparent.className === 'card') {   //if info is clicked
                 hideModal(nextButton);
-
                 grandparent.nextElementSibling.firstElementChild.firstElementChild.click();
-
-               
            } else if (parent.className === 'card') {      //if space around the image is clicked
               hideModal(nextButton);
             parent.nextElementSibling.firstElementChild.firstElementChild.click();
-
-            
-           }else if (parent.className === 'gallery') {  //if empty space around is clicked
-             
+           } else if (parent.className === 'gallery') {  //if empty space around is clicked
                 hideModal(nextButton);
                 targetDiv.nextElementSibling.firstElementChild.firstElementChild.click();
-            
-             
             } 
-             
-
-            //}
-      })
-            
-              
+      })        
     }
 };
 xhr.open('GET', 'https://randomuser.me/api/?results=12&nat=gb,us');
