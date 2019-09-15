@@ -1,0 +1,2 @@
+1. Changed the color of 'prev' and 'next' buttons to green, when the user reaches the end or beginning of the list, the color of a corresponding button changes to blue
+2. Added fadeIn and fadeOut effects to the modal window using jQuery
