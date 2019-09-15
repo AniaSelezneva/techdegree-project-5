@@ -221,8 +221,8 @@ xhr.onreadystatechange = function () {
         prevButton.addEventListener('click', () => { 
             enableButton(nextButton);
             if (parent.className === 'card-img-container') {   //if an image is clicked
-                    hideModal(prevButton);
-                    grandparent.previousElementSibling.firstElementChild.firstElementChild.click();
+                hideModal(prevButton);
+                grandparent.previousElementSibling.firstElementChild.firstElementChild.click();
             } else if (grandparent.className === 'card') {    //if info is clicked
                 hideModal(prevButton);
                 grandparent.previousElementSibling.firstElementChild.firstElementChild.click();
