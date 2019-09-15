@@ -143,7 +143,7 @@ xhr.onreadystatechange = function () {
                     }
                 }
 
-                //create modal window for a card that was clicked
+                //create a modal window for a card that was clicked
                 const button = document.createElement('button');
                 button.setAttribute('type', 'button');
                 button.setAttribute('id', 'modal-close-btn');
@@ -296,7 +296,7 @@ input.addEventListener ('keyup', () => {
 
  for(let g=0; g < stringNames.length; g++) {
      if(isInputNotEmpty) {
-         search = input.value.replace(/^\s+/, '').replace(/\s+$/, '');
+         search = input.value.replace(/^\s+/, '').replace(/\s+$/, ''); //search can contain spaces in the beginning
      if (!stringNames[g].innerHTML.includes(search.toLowerCase())){
          stringNames[g].parentElement.parentElement.style.display = 'none';
      } else if (stringNames[g].innerHTML.includes(search.toLowerCase())) {
