@@ -14,6 +14,10 @@ function hideModal (button) {
 
 }
 
+/**
+ * Disable button
+ * @param {*} button 
+ */
 function disableButton(button) {
     button.disabled = true;
     button.style.backgroundColor = '#0099cc';
@@ -24,9 +28,7 @@ function enableButton(button) {
     button.style.backgroundColor = '#4CAF50';
 }
 
-
-
-//send a request to API
+//send a request to API and create DOM elements
 var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
@@ -34,11 +36,8 @@ xhr.onreadystatechange = function () {
         const gallery = document.getElementById('gallery');
         const modalContainer = document.createElement('div');
         const modal = document.createElement('div');
-        modalContainer.style.display = 'none';   //hide modalContainer to show it when a user card is clicked
-        modal.style.display = 'none';             //hide a modal card too
 
-
-            //adding buttons to toggle between users when modal window is open
+            //add buttons to toggle between users when modal window is open
             const toggleDiv = document.createElement('div');
             toggleDiv.className = "modal-btn-container";
             const prevButton = document.createElement('button');
@@ -58,9 +57,9 @@ xhr.onreadystatechange = function () {
         let targetDiv;
         let parent;
         let grandparent;
-        //let div;
-
-        for (let i = 0; i < people.length; i++) {        //loop through all the people  
+        
+        //create a card for each person
+        for (let i = 0; i < people.length; i++) {   
             const div = document.createElement('div');
             div.className = 'card';
             gallery.appendChild(div);
@@ -97,21 +96,22 @@ xhr.onreadystatechange = function () {
             const location = people[i].location;
             cityState.innerHTML = location.city + ', ' + location.state;
             information.appendChild(cityState);
-
-            div.addEventListener ('click', (event) => {   //add event listener for every person on the page
-
-                //console.log(modal.getAttribute('style'));
+            
+            //event listener for cards on a page
+            div.addEventListener ('click', (event) => {   
 
                 modalContainer.className = "modal-container";
                 modal.className = "modal";
 
                 targetDiv = event.target;
-                parent = targetDiv.parentElement;  //parent of a card div that was clicked
+                parent = targetDiv.parentElement;
                 grandparent = parent.parentElement;
 
+                //change style of 'prev' or 'next' button when you reach the first or the last card
                 if (parent.className === 'card-img-container') {
-                        if (targetDiv.previousElementSibling === null && parent.previousElementSibling === null && grandparent.previousElementSibling === null) {
-                            disableButton(prevButton);
+                        if (targetDiv.previousElementSibling === null && parent.previousElementSibling === null 
+                            && grandparent.previousElementSibling === null) {
+                                disableButton(prevButton);
                         }
                         else if ((targetDiv.nextElementSibling === null && grandparent.nextElementSibling === null) 
                             || (grandparent.nextElementSibling.className === 'modal-container' && targetDiv.nextElementSibling === null)) {
@@ -157,14 +157,12 @@ xhr.onreadystatechange = function () {
                 modal.appendChild(info);
                 info.className = "modal-info-container";
                 const imgModal = document.createElement('img');
-                //const picture = people[i].picture;
                 imgModal.setAttribute('src', picture.large);
                 imgModal.setAttribute('alt', "profile picture");
                 info.appendChild(imgModal);
                 const nameModal = document.createElement('h3');
                 nameModal.setAttribute('id', 'name');
                 nameModal.className = "modal-name cap";
-                //const fullName = people[i].name;
                 nameModal.innerHTML = fullName.title + ' ' + fullName.first + ' ' + fullName.last;
                 info.appendChild(nameModal);
                 const emailModal = document.createElement('p');
@@ -174,7 +172,6 @@ xhr.onreadystatechange = function () {
                 info.appendChild(emailModal);
                 const cityModal = document.createElement('p');
                 cityModal.className = "modal-text cap";
-                //const location = people[i].location;
                 cityModal.innerHTML = location.city;
                 info.appendChild(cityModal);
                 const hr = document.createElement('hr');
@@ -202,7 +199,7 @@ xhr.onreadystatechange = function () {
                 
                 gallery.appendChild(modalContainer);
 
-                //add fadeIn effect when a card is pressed
+                //add fadeIn effect when a card is clicked
                 if (modal.getAttribute('style') === 'display: none;') {
                     $('.modal-container').fadeIn();
                     $('.modal').fadeIn();
@@ -211,32 +208,28 @@ xhr.onreadystatechange = function () {
                 modalContainer.style.display = 'block';
                 modal.style.display = 'block';
 
-                button.onclick = function() { //event listener for 'x' button on a modal
-                        
-                        //console.log(modal.getAttribute('style'));
-
+                button.onclick = function() { //event listener for 'x' button
                         $('.modal-container').fadeOut();
                         $('.modal').fadeOut();
                         document.querySelector('.modal-info-container').remove();
                         enableButton(prevButton);
                         enableButton(nextButton);
-                        //modal.style.display = 'none';
                 };
             }) 
         }
 
-        prevButton.addEventListener('click', () => {  //event listener for prev button
+        prevButton.addEventListener('click', () => { 
             enableButton(nextButton);
-            if (parent.className === 'card-img-container') {
+            if (parent.className === 'card-img-container') {   //if an image is clicked
                     hideModal(prevButton);
                     grandparent.previousElementSibling.firstElementChild.firstElementChild.click();
-            } else if (grandparent.className === 'card') {
+            } else if (grandparent.className === 'card') {    //if info is clicked
                 hideModal(prevButton);
                 grandparent.previousElementSibling.firstElementChild.firstElementChild.click();
-           } else if (parent.className === 'card') {
+           } else if (parent.className === 'card') {         //if space around the image is clicked
                 hideModal(prevButton);
                 parent.previousElementSibling.firstElementChild.firstElementChild.click();
-           } else if (parent.className === 'gallery') {
+           } else if (parent.className === 'gallery') {       //if empty space around is clicked
                 hideModal(prevButton);
                 targetDiv.previousElementSibling.firstElementChild.firstElementChild.click();
            }
@@ -249,10 +242,10 @@ xhr.onreadystatechange = function () {
            } else if (grandparent.className === 'card') {   //if info is clicked
                 hideModal(nextButton);
                 grandparent.nextElementSibling.firstElementChild.firstElementChild.click();
-           } else if (parent.className === 'card') {      //if space around the image is clicked
+           } else if (parent.className === 'card') {       //if space around the image is clicked
               hideModal(nextButton);
             parent.nextElementSibling.firstElementChild.firstElementChild.click();
-           } else if (parent.className === 'gallery') {  //if empty space around is clicked
+           } else if (parent.className === 'gallery') {     //if empty space around is clicked
                 hideModal(nextButton);
                 targetDiv.nextElementSibling.firstElementChild.firstElementChild.click();
             } 
@@ -286,7 +279,7 @@ let input = document.querySelector('#search-input');
 const button = document.querySelector('#search-submit');
 const empty = /^(?!\s*$).+/;
 
-//function to show all the people cards when the input is cleared by clicking the little cross inside it
+//show all the cards when the input is cleared by clicking the little cross inside it
 function showCardsCrossPressed () {  
     const stringNames = document.querySelectorAll('#name');
     for(let g=0; g < stringNames.length; g++) {
