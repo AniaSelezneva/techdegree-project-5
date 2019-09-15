@@ -38,22 +38,22 @@ xhr.onreadystatechange = function () {
         modal.style.display = 'none';             //hide a modal card too
 
 
-                        //adding buttons to toggle between users when modal window is open
-                        const toggleDiv = document.createElement('div');
-                        toggleDiv.className = "modal-btn-container";
-                        const prevButton = document.createElement('button');
-                        prevButton.setAttribute('type', "button");
-                        prevButton.setAttribute('id', "modal-prev");
-                        prevButton.className = "modal-prev btn";
-                        prevButton.innerHTML = 'Prev';
-                        const nextButton = document.createElement('button');
-                        nextButton.setAttribute('type', "button");
-                        nextButton.setAttribute('id', "modal-next");
-                        nextButton.className = 'modal-next btn';
-                        nextButton.innerHTML = 'Next';
-                        toggleDiv.appendChild(prevButton);
-                        toggleDiv.appendChild(nextButton);
-                        modalContainer.appendChild(toggleDiv);
+                //adding buttons to toggle between users when modal window is open
+                const toggleDiv = document.createElement('div');
+                toggleDiv.className = "modal-btn-container";
+                const prevButton = document.createElement('button');
+                prevButton.setAttribute('type', "button");
+                prevButton.setAttribute('id', "modal-prev");
+                prevButton.className = "modal-prev btn";
+                prevButton.innerHTML = 'Prev';
+                const nextButton = document.createElement('button');
+                nextButton.setAttribute('type', "button");
+                nextButton.setAttribute('id', "modal-next");
+                nextButton.className = 'modal-next btn';
+                nextButton.innerHTML = 'Next';
+                toggleDiv.appendChild(prevButton);
+                toggleDiv.appendChild(nextButton);
+                modalContainer.appendChild(toggleDiv);
 
         let targetDiv;
         let parent;
@@ -98,114 +98,114 @@ xhr.onreadystatechange = function () {
             information.appendChild(cityState);
 
             div.addEventListener ('click', (event) => {   //add event listener for every person on the page
-            modalContainer.className = "modal-container";
-            modal.className = "modal";
+                modalContainer.className = "modal-container";
+                modal.className = "modal";
 
-            targetDiv = event.target;
-            parent = targetDiv.parentElement;  //parent of a card div that was clicked
-            grandparent = parent.parentElement;
+                targetDiv = event.target;
+                parent = targetDiv.parentElement;  //parent of a card div that was clicked
+                grandparent = parent.parentElement;
 
-            if (parent.className === 'card-img-container') {
-                    if (targetDiv.previousElementSibling === null && parent.previousElementSibling === null && grandparent.previousElementSibling === null) {
+                if (parent.className === 'card-img-container') {
+                        if (targetDiv.previousElementSibling === null && parent.previousElementSibling === null && grandparent.previousElementSibling === null) {
+                            disableButton(prevButton);
+                        }
+                        else if ((targetDiv.nextElementSibling === null && grandparent.nextElementSibling === null) 
+                            || (grandparent.nextElementSibling.className === 'modal-container' && targetDiv.nextElementSibling === null)) {
+                            disableButton(nextButton);
+                        }
+                } 
+                if (grandparent.className === 'card') {
+                        if (grandparent.previousElementSibling === null) {
+                            disableButton(prevButton);
+                        }
+                        else if (parent.nextElementSibling === null && grandparent.nextElementSibling === null) {
+                            disableButton(nextButton);
+                        }
+                }
+                if (parent.className === 'card') {
+                    if(targetDiv.previousElementSibling === null && parent.previousElementSibling === null) {
                         disableButton(prevButton);
                     }
-                    else if ((targetDiv.nextElementSibling === null && grandparent.nextElementSibling === null) 
-                        || (grandparent.nextElementSibling.className === 'modal-container' && targetDiv.nextElementSibling === null)) {
+                    else if(parent.nextElementSibling === null) {
                         disableButton(nextButton);
                     }
-            } 
-            if (grandparent.className === 'card') {
-                    if (grandparent.previousElementSibling === null) {
+                }  
+                if (parent.className === 'gallery') {
+                    if (targetDiv.previousElementSibling === null) {
                         disableButton(prevButton);
                     }
-                    else if (parent.nextElementSibling === null && grandparent.nextElementSibling === null) {
+                    else if (targetDiv.nextElementSibling === null && grandparent.nextElementSibling === null) {
                         disableButton(nextButton);
                     }
-            }
-            if (parent.className === 'card') {
-                   if(targetDiv.previousElementSibling === null && parent.previousElementSibling === null) {
-                    disableButton(prevButton);
-                   }
-                   else if(parent.nextElementSibling === null) {
-                    disableButton(nextButton);
-                   }
-            }  
-            if (parent.className === 'gallery') {
-                   if (targetDiv.previousElementSibling === null) {
-                    disableButton(prevButton);
-                   }
-                   else if (targetDiv.nextElementSibling === null && grandparent.nextElementSibling === null) {
-                    disableButton(nextButton);
-                   }
-            }
+                }
 
-            //create modal window for a card that was clicked
-            const button = document.createElement('button');
-            button.setAttribute('type', 'button');
-            button.setAttribute('id', 'modal-close-btn');
-            button.className = "modal-close-btn";
-            const strong = document.createElement('strong');
-            strong.innerHTML = 'X';
-            button.appendChild(strong);
-            modal.appendChild(button);
+                //create modal window for a card that was clicked
+                const button = document.createElement('button');
+                button.setAttribute('type', 'button');
+                button.setAttribute('id', 'modal-close-btn');
+                button.className = "modal-close-btn";
+                const strong = document.createElement('strong');
+                strong.innerHTML = 'X';
+                button.appendChild(strong);
+                modal.appendChild(button);
 
-            const info = document.createElement('div');
-            modal.appendChild(info);
-            info.className = "modal-info-container";
-            const imgModal = document.createElement('img');
-            //const picture = people[i].picture;
-            imgModal.setAttribute('src', picture.large);
-            imgModal.setAttribute('alt', "profile picture");
-            info.appendChild(imgModal);
-            const nameModal = document.createElement('h3');
-            nameModal.setAttribute('id', 'name');
-            nameModal.className = "modal-name cap";
-            //const fullName = people[i].name;
-            nameModal.innerHTML = fullName.title + ' ' + fullName.first + ' ' + fullName.last;
-            info.appendChild(nameModal);
-            const emailModal = document.createElement('p');
-            
-            emailModal.className = "modal-text";
-            emailModal.innerHTML = people[i].email;
-            info.appendChild(emailModal);
-            const cityModal = document.createElement('p');
-            cityModal.className = "modal-text cap";
-            //const location = people[i].location;
-            cityModal.innerHTML = location.city;
-            info.appendChild(cityModal);
-            const hr = document.createElement('hr');
-            info.appendChild(hr);
-
-            const phone = document.createElement('p');
-            phone.className = "modal-text";
-            phone.innerHTML  =people[i].cell;
-            info.appendChild(phone);
-
-            const address = document.createElement('p');
-            address.className = "modal-text";
-            const street = location.street;
-            const state = location.state;
-            const postcode = location.postcode;
-            address.innerHTML = street + ', ' + location.city + ', ' + state + ', ' + postcode;
-            info.appendChild(address);
-
-            const birthday = document.createElement('p');
-            birthday.className = "modal-text";
-            const dob = people[i].dob;
-            birthday.innerHTML = dob.date.slice(0, 10);
-            info.appendChild(birthday);
-            modalContainer.appendChild(modal);
-            
-            gallery.appendChild(modalContainer);
+                const info = document.createElement('div');
+                modal.appendChild(info);
+                info.className = "modal-info-container";
+                const imgModal = document.createElement('img');
+                //const picture = people[i].picture;
+                imgModal.setAttribute('src', picture.large);
+                imgModal.setAttribute('alt', "profile picture");
+                info.appendChild(imgModal);
+                const nameModal = document.createElement('h3');
+                nameModal.setAttribute('id', 'name');
+                nameModal.className = "modal-name cap";
+                //const fullName = people[i].name;
+                nameModal.innerHTML = fullName.title + ' ' + fullName.first + ' ' + fullName.last;
+                info.appendChild(nameModal);
+                const emailModal = document.createElement('p');
                 
-            modalContainer.style.display = 'block';
-            modal.style.display = 'block';
+                emailModal.className = "modal-text";
+                emailModal.innerHTML = people[i].email;
+                info.appendChild(emailModal);
+                const cityModal = document.createElement('p');
+                cityModal.className = "modal-text cap";
+                //const location = people[i].location;
+                cityModal.innerHTML = location.city;
+                info.appendChild(cityModal);
+                const hr = document.createElement('hr');
+                info.appendChild(hr);
 
-            button.onclick = function() { //event listener for 'x' button on a modal
-                    $('.modal-container').fadeOut();
-                    document.querySelector('.modal-info-container').remove();
-                    enableButton(prevButton);
-                    enableButton(nextButton);
+                const phone = document.createElement('p');
+                phone.className = "modal-text";
+                phone.innerHTML  =people[i].cell;
+                info.appendChild(phone);
+
+                const address = document.createElement('p');
+                address.className = "modal-text";
+                const street = location.street;
+                const state = location.state;
+                const postcode = location.postcode;
+                address.innerHTML = street + ', ' + location.city + ', ' + state + ', ' + postcode;
+                info.appendChild(address);
+
+                const birthday = document.createElement('p');
+                birthday.className = "modal-text";
+                const dob = people[i].dob;
+                birthday.innerHTML = dob.date.slice(0, 10);
+                info.appendChild(birthday);
+                modalContainer.appendChild(modal);
+                
+                gallery.appendChild(modalContainer);
+                    
+                modalContainer.style.display = 'block';
+                modal.style.display = 'block';
+
+                button.onclick = function() { //event listener for 'x' button on a modal
+                        $('.modal-container').fadeOut();
+                        document.querySelector('.modal-info-container').remove();
+                        enableButton(prevButton);
+                        enableButton(nextButton);
                 };
             }) 
         }
