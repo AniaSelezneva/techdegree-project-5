@@ -38,26 +38,27 @@ xhr.onreadystatechange = function () {
         modal.style.display = 'none';             //hide a modal card too
 
 
-                //adding buttons to toggle between users when modal window is open
-                const toggleDiv = document.createElement('div');
-                toggleDiv.className = "modal-btn-container";
-                const prevButton = document.createElement('button');
-                prevButton.setAttribute('type', "button");
-                prevButton.setAttribute('id', "modal-prev");
-                prevButton.className = "modal-prev btn";
-                prevButton.innerHTML = 'Prev';
-                const nextButton = document.createElement('button');
-                nextButton.setAttribute('type', "button");
-                nextButton.setAttribute('id', "modal-next");
-                nextButton.className = 'modal-next btn';
-                nextButton.innerHTML = 'Next';
-                toggleDiv.appendChild(prevButton);
-                toggleDiv.appendChild(nextButton);
-                modalContainer.appendChild(toggleDiv);
+            //adding buttons to toggle between users when modal window is open
+            const toggleDiv = document.createElement('div');
+            toggleDiv.className = "modal-btn-container";
+            const prevButton = document.createElement('button');
+            prevButton.setAttribute('type', "button");
+            prevButton.setAttribute('id', "modal-prev");
+            prevButton.className = "modal-prev btn";
+            prevButton.innerHTML = 'Prev';
+            const nextButton = document.createElement('button');
+            nextButton.setAttribute('type', "button");
+            nextButton.setAttribute('id', "modal-next");
+            nextButton.className = 'modal-next btn';
+            nextButton.innerHTML = 'Next';
+            toggleDiv.appendChild(prevButton);
+            toggleDiv.appendChild(nextButton);
+            modalContainer.appendChild(toggleDiv);
 
         let targetDiv;
         let parent;
         let grandparent;
+        //let div;
 
         for (let i = 0; i < people.length; i++) {        //loop through all the people  
             const div = document.createElement('div');
@@ -98,6 +99,9 @@ xhr.onreadystatechange = function () {
             information.appendChild(cityState);
 
             div.addEventListener ('click', (event) => {   //add event listener for every person on the page
+
+                //console.log(modal.getAttribute('style'));
+
                 modalContainer.className = "modal-container";
                 modal.className = "modal";
 
@@ -197,15 +201,26 @@ xhr.onreadystatechange = function () {
                 modalContainer.appendChild(modal);
                 
                 gallery.appendChild(modalContainer);
+
+                //add fadeIn effect when a card is pressed
+                if (modal.getAttribute('style') === 'display: none;') {
+                    $('.modal-container').fadeIn();
+                    $('.modal').fadeIn();
+                }
                     
                 modalContainer.style.display = 'block';
                 modal.style.display = 'block';
 
                 button.onclick = function() { //event listener for 'x' button on a modal
+                        
+                        //console.log(modal.getAttribute('style'));
+
                         $('.modal-container').fadeOut();
+                        $('.modal').fadeOut();
                         document.querySelector('.modal-info-container').remove();
                         enableButton(prevButton);
                         enableButton(nextButton);
+                        //modal.style.display = 'none';
                 };
             }) 
         }
@@ -251,7 +266,7 @@ const form = document.createElement('form');
 form.setAttribute('action', '#');
 form.setAttribute('method', "get");
 
-const search = document.createElement('input');
+let search = document.createElement('input');
 search.setAttribute('type','search');
 search.setAttribute('id','search-input');
 search.className = "search-input";
@@ -267,7 +282,7 @@ form.appendChild(submit);
 const parent = document.querySelector('.search-container');
 parent.appendChild(form);
 
-const input = document.querySelector('#search-input');
+let input = document.querySelector('#search-input');
 const button = document.querySelector('#search-submit');
 const empty = /^(?!\s*$).+/;
 
