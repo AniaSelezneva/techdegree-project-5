@@ -199,8 +199,10 @@ xhr.onreadystatechange = function () {
                 
                 gallery.appendChild(modalContainer);
 
+                modalContainer.style.display = 'none';
+
                 //add fadeIn effect when a card is clicked
-                if (modal.getAttribute('style') === 'display: none;') {
+                if (modal.getAttribute('style') === 'display: none;' || modal.getAttribute('style') === null) {
                     $('.modal-container').fadeIn();
                     $('.modal').fadeIn();
                 }
