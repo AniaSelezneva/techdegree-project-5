@@ -52,8 +52,7 @@ xhr.onreadystatechange = function () {
             nextButton.innerHTML = 'Next';
             toggleDiv.appendChild(prevButton);
             toggleDiv.appendChild(nextButton);
-            modalContainer.appendChild(toggleDiv);
-
+ 
         let targetDiv;
         let parent;
         let grandparent;
@@ -200,6 +199,8 @@ xhr.onreadystatechange = function () {
                 gallery.appendChild(modalContainer);
 
                 modalContainer.style.display = 'none';
+
+                modal.parentNode.insertBefore(toggleDiv, modal.nextSibling);
 
                 //add fadeIn effect when a card is clicked
                 if (modal.getAttribute('style') === 'display: none;' || modal.getAttribute('style') === null) {
