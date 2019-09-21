@@ -1,4 +1,4 @@
-
+document.querySelector('body').style.backgroundImage = 'url(images/background.jpg)';
 /**
  * 
  * Hide current modal to show a new one
@@ -96,9 +96,8 @@ xhr.onreadystatechange = function () {
             cityState.innerHTML = location.city + ', ' + location.state;
             information.appendChild(cityState);
             
-            //event listener for cards on a page
+            //event listener for cards
             div.addEventListener ('click', (event) => {   
-
                 modalContainer.className = "modal-container";
                 modal.className = "modal";
 
@@ -158,6 +157,17 @@ xhr.onreadystatechange = function () {
                 const imgModal = document.createElement('img');
                 imgModal.setAttribute('src', picture.large);
                 imgModal.setAttribute('alt', "profile picture");
+
+                imgModal.style.borderRadius = '50%';
+
+                imgModal.addEventListener('mouseover', () => {
+                    imgModal.style.transform = 'scale(1.1)';
+                });
+
+                imgModal.addEventListener('mouseout', () => {
+                    imgModal.style.transform = 'scale(1)';
+                });
+
                 info.appendChild(imgModal);
                 const nameModal = document.createElement('h3');
                 nameModal.setAttribute('id', 'name');
